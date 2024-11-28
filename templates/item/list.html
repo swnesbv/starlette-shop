@@ -1,0 +1,86 @@
+
+{% extends "base.html" %}
+{% block title %} list item {% endblock %}
+
+{% block content %}
+
+<h1 class="lead my-3">list item..</h1>
+
+<div class="card">
+    <h2 class="card-body lead">list item..</h2>
+    <p class="card-header">This is a template for a simple marketing or informational website.</p>
+</div>
+
+<div class="flex_start">
+    {% if obj_list %}
+    {% for i in obj_list %}
+    <div class="card mt-2 me-1">
+
+        <ul class="card-header list-group list-group-horizontal">
+            <li class="list-group-item pt-3">
+                <sup class="float-start">id:</sup>
+                <span>{{ i.id }}</span>
+            </li>
+            <li class="list-group-item pt-3">
+                <sup class="float-start">owner:</sup>
+                <span>{{ i.owner }}</span>
+            </li>
+        </ul>
+
+        <ul class="card-body list-group list-group-flush">
+
+            <li class="list-group-item">
+                <sup class="float-start">title:</sup>
+                <p>{{ i.title }}</p>
+            </li>
+            <li class="list-group-item">
+                <sup class="float-start">description:</sup>
+                <p>{{ i.description | striptags() | truncate(190, True, '...', 5) | safe }}</p>
+            </li>
+
+            {% if i.categories %}
+            <li class="list-group-item">
+                <sup class="float-start">categories:</sup>
+                {% for c in i.categories %}
+                <a class="btn btn-outline-primary btn-sm mt-2" href="/item/item/categories/['{{ c }}']">{{ c }}</a>
+                {% endfor %}
+            </li>
+            {% endif %}
+
+            {% if i.categories %}
+            <li class="list-group-item">
+                <a class="btn btn-outline-primary btn-sm" href="/item/item/categories/{{ i.categories }}">
+                    {% for c in i.categories %}
+                        <span class="me-1">{{ c }},</span>
+                    {% endfor %}
+                </a>
+            </li>
+            {% endif %}
+
+            {% if i.item_products %}
+            <li class="list-group-item pt-3">
+            <sup class="float-start">
+                item_products: {{ i.item_products | length }}
+            </sup>
+            {% for p in i.item_products %}
+            <a class="btn btn-outline-primary btn-sm mt-2" href="/item/products/details/{{ p.id }}">{{ p.title }}</a>
+            {% endfor %}
+            </li>
+            {% endif %}
+
+            {% include "created_modified.html" %}
+        </ul>
+
+        <div class="card-footer">
+        <a class="btn btn-outline-primary btn-sm" href="/item/item/details/{{ i.id }}">view details &raquo;</a>
+        </div>
+
+    </div>
+    {% endfor %}
+
+        {% else %}
+        <span class="mt-5">no information available</span>
+    {% endif %}
+</div>
+
+{% endblock %}

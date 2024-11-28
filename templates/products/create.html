@@ -1,0 +1,153 @@
+
+{% extends "base.html" %}
+{% block title %} new products {% endblock %}
+
+{% block content %}
+
+<h1 class="lead my-2">new products</h1>
+
+<form class="card" method="POST" enctype="multipart/form-data">
+    <div class="card-header">
+        <select
+            name="belongs"
+            class="form-control shadow-sm mb-2">
+            <option value="">item select</option>
+
+            {% for i in obj_item %}
+                <option value="{{ i.id }}">
+                    {{ i.id }}
+                </option>
+            {% endfor %}
+
+        </select>
+        {% for i in obj_item %}
+        {% if i.categories %}
+        <sup>choose categories</sup>
+        <p>
+        {% for c in i.categories %}
+        <sup class="me-2">{{ c }}</sup>
+        <input type="hidden" name="on_off" value="0"><input type="checkbox" onclick="this.previousSibling.value=1-this.previousSibling.value">
+        <input type="hidden" name="categories" value="{{ c }}" />
+        {% endfor %}
+        </p>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="card-body row">
+
+        <div class="mb-2">
+            <sup>title</sup>
+            <input
+                type="text"
+                required
+                name="title"
+                placeholder="products 01"
+                class="form-control"
+            />
+        </div>
+
+        <div>
+        <sup>description</sup>
+        <textarea class="form-control" name="description" maxlength="333" spellcheck></textarea>
+            <div id="help" class="form-text">help text</div>
+        </div>
+
+        <div id="addinput" class="card-body">
+            <sup class="float-start">add cts</sup>
+        </div>
+        <div class="card-footer action-buttons">
+        <button class="btn btn-sm btn-outline-primary" onclick="addFn(); return false;">
+            add cts
+        </button>
+        </div>
+
+    <div class="col">
+        <sup>amount</sup>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <sup class="ms-2">container</sup>
+            <input class="form-control mb-2" type="number" name="a_container" min="1" max="100" placeholder="container" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">boxes</sup>
+            <input class="form-control mb-2" type="number" name="a_boxes" min="1" max="100" placeholder="boxes" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">carton</sup>
+            <input class="form-control mb-2" type="number" name="a_carton" min="1" max="100" placeholder="carton" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">units</sup>
+            <input class="form-control" type="number" name="a_units" min="1" max="100" placeholder="units" />
+            </li>
+        </ul>
+    </div>
+    <div class="col">
+        <sup>price</sup>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <sup class="ms-2">container</sup>
+            <input class="form-control mb-2" type="number" name="p_container" min="1" max="100" placeholder="container" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">boxes</sup>
+            <input class="form-control mb-2" type="number" name="p_boxes" min="1" max="100" placeholder="boxes" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">carton</sup>
+            <input class="form-control mb-2" type="number" name="p_carton" min="1" max="100" placeholder="carton" />
+            </li>
+            <li class="list-group-item">
+                <sup class="ms-2">units</sup>
+            <input class="form-control" type="number" name="p_units" min="1" max="100" placeholder="units" />
+            </li>
+        </ul>
+    </div>
+
+    </div>
+
+    <div class="card-footer">
+        <input
+            type="file"
+            name="file"
+            class="form-control"
+        />
+    </div>
+    <div class="card-footer">
+    <button type="submit" class="btn btn-outline-primary btn-sm">
+        submit
+    </button>
+    </div>
+</form>
+
+<script>
+    function addFn() {
+        const divEle = document.getElementById("addinput");
+        const wrapper = document.createElement("div");
+
+        const cFl = document.createElement("input");
+        cFl.setAttribute("type", "text");
+        cFl.setAttribute("name", "cts");
+        cFl.classList.add("w-auto");
+        cFl.classList.add("form-control");
+        cFl.classList.add("mt-2");
+
+        wrapper.appendChild(cFl);
+        divEle.appendChild(wrapper);
+    }
+</script>
+
+{% endblock %}
+
+
+{% block script %}
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.17.1/jodit.min.css"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.17.1/jodit.min.js"></script>
+
+<script>
+    const editor = Jodit.make('textarea');
+</script>
+
+{% endblock %}
