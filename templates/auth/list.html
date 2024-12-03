@@ -56,80 +56,20 @@
             {% endfor %}
         </li>
         <li class="list-group-item pt-3">
-            <sup class="float-start">user_rent: {{ i.user_rent | length }}</sup>
-            {% for r in i.user_rent %}
+            <sup class="float-start">user_products: {{ i.user_products | length }}</sup>
+            {% for r in i.user_products %}
             <span>{{ r.id }}, </span>
             {% endfor %}
         </li>
         <li class="list-group-item pt-3">
-            <sup class="float-start">user_service: {{ i.user_service | length }}</sup>
-            {% for r in i.user_service %}
+            <sup class="float-start">user_purchases: {{ i.user_purchases | length }}</sup>
+            {% for r in i.user_purchases %}
             <span>{{ r.id }}, </span>
             {% endfor %}
         </li>
         <li class="list-group-item pt-3">
             <sup class="float-start">user_cmt: {{ i.user_cmt | length }}</sup>
             {% for r in i.user_cmt %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_group: {{ i.user_group | length }}</sup>
-            {% for r in i.user_group %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_chat: {{ i.user_chat | length }}</sup>
-            {% for r in i.user_chat %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">one_chat: {{ i.one_chat | length }}</sup>
-            {% for r in i.one_chat %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_one_one: {{ i.user_one_one | length }}</sup>
-            {% for r in i.user_one_one %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_participant: {{ i.user_participant | length }}</sup>
-            {% for r in i.user_participant %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_rrf: {{ i.user_rrf | length }}</sup>
-            {% for r in i.user_rrf %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_rsf: {{ i.user_rsf | length }}</sup>
-            {% for r in i.user_rsf %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_sch_r: {{ i.user_sch_r | length }}</sup>
-            {% for r in i.user_sch_r %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_sch_s: {{ i.user_sch_s | length }}</sup>
-            {% for r in i.user_sch_s %}
-            <span>{{ r.id }}, </span>
-            {% endfor %}
-        </li>
-        <li class="list-group-item pt-3">
-            <sup class="float-start">user_dump_s: {{ i.user_dump_s | length }}</sup>
-            {% for r in i.user_dump_s %}
             <span>{{ r.id }}, </span>
             {% endfor %}
         </li>

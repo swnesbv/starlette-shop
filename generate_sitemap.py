@@ -1,7 +1,8 @@
-import requests
-from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
+from urllib.request import urlopen
+from urllib.error import HTTPError
+from bs4 import BeautifulSoup
 
 
 def generate_sitemap(url):
@@ -29,19 +30,18 @@ def generate_sitemap(url):
         current_url = stack.pop()
         if current_url in visited:
             continue
-
         visited.add(current_url)
 
         if not current_url.startswith(root):
             continue
         try:
-            response = requests.get(current_url)
-        except requests.exceptions.RequestException as e:
-            print(f"err.. {current_url}: {e}")
+            response = urlopen(current_url.replace(' ', '%20'))
+        except HTTPError as e:
+            print(f" err sitemap.. {current_url}: {e}")
             continue
 
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, "html.parser")
+        if response.status == 200:
+            soup = BeautifulSoup(response, "html.parser")
             extract_urls(soup, root)
 
             for link in soup.find_all("a", href=True):
@@ -65,6 +65,7 @@ def generate_sitemap(url):
 
     with open("./static/sitemap.xml", "w", encoding="utf-8") as f:
         f.write(xml_content)
+        print(" sitemap write..")
     print(" sitemap generated successfully..")
 
 generate_sitemap("http://localhost:8000/")

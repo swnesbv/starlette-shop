@@ -16,5 +16,4 @@ json2html
 aiocsv
 pydantic
 websockets
-requests
 bs4

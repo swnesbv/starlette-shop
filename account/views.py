@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
+
 from pathlib import Path
 
-import os, jwt, functools
+import os, jwt, functools, random, subprocess
 
 from sqlalchemy import update as sqlalchemy_update
 
@@ -28,7 +29,7 @@ from options_select.opt_slc import left_right_first
 from auth_privileged.opt_slc import get_privileged_user
 
 from .token import mail_verify
-from .opt_slc import visited, on_off_visited
+from .opt_slc import visited, on_off_visited, get_token_visited
 
 key = settings.SECRET_KEY
 algorithm = settings.JWT_ALGORITHM
@@ -37,12 +38,39 @@ EMAIL_TOKEN_EXPIRY_MINUTES = settings.EMAIL_TOKEN_EXPIRY_MINUTES
 templates = Jinja2Templates(directory="templates")
 
 
+async def avatar_color(request):
+    # ..
+    template = "avatar.html"
+    # ..
+    number_of_colors = 6
+    i = [
+        "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
+        for i in range(number_of_colors)
+    ]
+    return templates.TemplateResponse(
+        template, {
+            "request": request,
+            "i": i
+        }
+    )
+
+
+async def user_avatar(request):
+
+    if request.method == "GET":
+        # ..
+        subprocess.Popen(["./ENV/Scripts/python", "generate_avatar.py"])
+        # ..
+        return RedirectResponse(
+            "/messages?msg=avatar generated successfully..!", status_code=302
+        )
+
+
 async def user_register(request):
     # ..
     template = "/auth/register.html"
 
     async with async_session() as session:
-
         if request.method == "POST":
             form = await request.form()
             name = form["name"]
@@ -98,7 +126,7 @@ async def user_login(request):
     if request.method == "GET":
         template = "/auth/login.html"
         return templates.TemplateResponse(template, {"request": request})
-    #...
+    # ...
     if request.method == "POST":
         async with async_session() as session:
             # ..
@@ -107,9 +135,7 @@ async def user_login(request):
             email = form["email"]
             password = form["password"]
             # ..
-            stmt = await session.execute(
-                select(User).where(User.email == email)
-            )
+            stmt = await session.execute(select(User).where(User.email == email))
             user = stmt.scalars().first()
             print(" result..", user.privileged)
             if user.privileged is True:
@@ -335,22 +361,11 @@ async def user_list(request):
     async with async_session() as session:
         # ..
         stmt = await session.execute(
-            select(User)
-            .options(
+            select(User).options(
                 joinedload(User.user_item),
-                joinedload(User.user_rent),
-                joinedload(User.user_service),
+                joinedload(User.user_products),
+                joinedload(User.user_purchases),
                 joinedload(User.user_cmt),
-                joinedload(User.user_group),
-                joinedload(User.user_chat),
-                joinedload(User.one_chat),
-                joinedload(User.user_one_one),
-                joinedload(User.user_participant),
-                joinedload(User.user_rrf),
-                joinedload(User.user_rsf),
-                joinedload(User.user_sch_r),
-                joinedload(User.user_sch_s),
-                joinedload(User.user_dump_s),
             )
         )
         result = stmt.scalars().unique()

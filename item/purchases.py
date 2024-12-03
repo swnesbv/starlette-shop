@@ -31,8 +31,12 @@ async def purchases_create(request):
     async with async_session() as session:
         if request.method == "GET":
             i = await for_id(session, Products, id)
-            amount_list = json.loads(i.amount)
-            price_list = json.loads(i.price)
+            amount_list = []
+            price_list = []
+            if i.amount:
+                amount_list = json.loads(i.amount)
+            if i.amount:
+                price_list = json.loads(i.price)
             if i:
                 return templates.TemplateResponse(
                     template,

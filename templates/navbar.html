@@ -40,6 +40,13 @@
                         <li class="nav-item">
                             <a class="dropdown-item" href="/item/list/">item</a>
                         </li>
+
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="dropdown-item" href="/account/user-avatar/">generate avatar</a>
+                        </li>
+                        {% endif %}
+
                     </ul>
                 </li>
 
@@ -155,6 +162,8 @@
                     </ul>
                 </li>
             </ul>
+
+            {% include "auth/avatar.html" %}
 
             {% if request.prv.prv_key %}
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">

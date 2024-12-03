@@ -22,6 +22,7 @@ async def get_token_visited(request):
         if token:
             payload = jwt.decode(token, key, algorithm)
             email = payload["email"]
+            print(" email..!", email)
             return email
 
 

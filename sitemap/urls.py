@@ -6,8 +6,8 @@ from sitemap import sitemap
 
 routes = [
     Route(
-        "/sitemap",
+        "/generate-sitemap",
         sitemap.all_sitemap,
         methods=["GET"]
-    ),
+    )
 ]

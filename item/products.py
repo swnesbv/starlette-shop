@@ -226,7 +226,7 @@ async def products_cts(request):
             template = "/products/cts.html"
             categories = request.path_params["cts"]
 
-            a = categories.replace("%20", " ")
+            a = categories.replace("%20", "")
             output = ast.literal_eval(a)
             # ..
             stmt = await session.execute(
