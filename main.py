@@ -67,7 +67,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def homepage(request):
     # ..
     template = "index.html"
-
+    # ..
     async with async_session() as session:
         stmt_sl = await session.execute(select(Slider))
         obj_sl = stmt_sl.scalars().all()

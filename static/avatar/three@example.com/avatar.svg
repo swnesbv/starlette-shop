@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="582" height="402" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>avatar</title>
+  <rect id="canvas_background" x="-1" y="-1" width="584" height="404" fill="#fff"/>
+  <g id="canvasGrid" display="none">
+   <rect x="1" y="1.1" width="580" height="400" fill="url(#gridpattern)" stroke-width="0"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g stroke="#000" stroke-width="1.5">
+   <rect x="1.5" y=".75" width="200" height="190" fill="#A33A8C"/>
+   <rect x="406.5" y="5.75" width="175" height="183" fill="#033DF8"/>
+   <rect x="204.5" y="4.75" width="199" height="186" fill="#578AFF"/>
+   <rect x="2.5" y="190.75" width="198" height="207" fill="#0CBD74"/>
+   <rect x="204.5" y="195.75" width="200" height="205" fill="#D9CEB7"/>
+   <rect x="398.5" y="196.75" width="180" height="200" fill="#B49C70"/>
+  </g>
+ </g>
+</svg>

@@ -29,7 +29,7 @@ from options_select.opt_slc import left_right_first
 from auth_privileged.opt_slc import get_privileged_user
 
 from .token import mail_verify
-from .opt_slc import visited, on_off_visited, get_token_visited
+from .opt_slc import visited, on_off_visited
 
 key = settings.SECRET_KEY
 algorithm = settings.JWT_ALGORITHM
@@ -42,28 +42,43 @@ async def avatar_color(request):
     # ..
     template = "avatar.html"
     # ..
-    number_of_colors = 6
-    i = [
-        "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
-        for i in range(number_of_colors)
-    ]
-    return templates.TemplateResponse(
-        template, {
-            "request": request,
-            "i": i
-        }
-    )
-
-
-async def user_avatar(request):
-
     if request.method == "GET":
         # ..
-        subprocess.Popen(["./ENV/Scripts/python", "generate_avatar.py"])
+        number_of_colors = 6
+        i = [
+            "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
+            for i in range(number_of_colors)
+        ]
+        return templates.TemplateResponse(
+            template, {
+                "request": request,
+                "i": i
+            }
+        )
+    if request.method == "POST":
         # ..
+        form = await request.form()
+        avatar = form["avatar"]
+        # ..
+        save_path = f"./static/avatar/{request.user.email}/"
+        os.makedirs(save_path, exist_ok=True)
+        # ..
+        with open(f"{save_path}" + "avatar.svg", "w", encoding="utf-8") as file:
+            file.write(avatar)
         return RedirectResponse(
             "/messages?msg=avatar generated successfully..!", status_code=302
         )
+
+
+# async def user_avatar(request):
+
+#     if request.method == "GET":
+#         # ..
+#         subprocess.Popen(["./ENV/Scripts/python", "generate_avatar.py"])
+#         # ..
+#         return RedirectResponse(
+#             "/messages?msg=avatar generated successfully..!", status_code=302
+#         )
 
 
 async def user_register(request):
@@ -71,7 +86,9 @@ async def user_register(request):
     template = "/auth/register.html"
 
     async with async_session() as session:
+        # ..
         if request.method == "POST":
+            # ..
             form = await request.form()
             name = form["name"]
             email = form["email"]

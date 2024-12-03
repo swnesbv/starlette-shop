@@ -12,7 +12,6 @@ from .views import (
     resend_email,
     user_delete,
     avatar_color,
-    user_avatar,
 )
 from .recovery import (
     reset_password,
@@ -82,12 +81,12 @@ routes = [
     Route(
         "/avatar",
         avatar_color,
-        methods=["GET"],
+        methods=["GET", "POST"],
     ),
-    Route(
-        "/user-avatar",
-        user_avatar,
-        methods=["GET"],
-    ),
+    # Route(
+    #     "/user-avatar",
+    #     user_avatar,
+    #     methods=["GET"],
+    # ),
 
 ]
