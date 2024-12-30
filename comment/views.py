@@ -32,8 +32,8 @@ async def cmt_child_create(request, new, id, item):
         if request.cookies.get("visited"):
             owner = request.user.user_id
         if request.cookies.get("privileged"):
-            obj = await get_privileged_user(request, session)
-            owner = int(obj.id)
+            prv = await get_privileged_user(request, session)
+            owner = int(prv.id)
         # ..
         if request.method == "GET":
             return templates.TemplateResponse(

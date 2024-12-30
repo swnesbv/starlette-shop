@@ -98,7 +98,7 @@ async def purchases_create(request):
 
 
 async def get_token_purchases(request):
-    if request.headers.get("purchases"):
+    if request.cookies.get("purchases"):
         token = request.cookies.get("purchases")
         if token:
             payload = json.loads(token)

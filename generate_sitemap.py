@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
 from urllib.request import urlopen
@@ -5,24 +6,24 @@ from urllib.error import HTTPError
 from bs4 import BeautifulSoup
 
 
-def generate_sitemap(url):
+async def generate_sitemap(url):
 
     root = url.rstrip("/")
     sitemap = set()
     visited = set()
     original_domain = urlparse(root).netloc
 
-    def add_url(root, path):
+    async def add_url(root, path):
         if not path.startswith("http"):
             path = urljoin(root, path)
         sitemap.add(path)
 
-    def extract_urls(soup, root):
+    async def extract_urls(soup, root):
         for link in soup.find_all("a", href=True):
             url = link["href"]
             parsed_url = urlparse(url)
             if parsed_url.netloc == original_domain or not parsed_url.netloc:
-                add_url(root, url)
+                await add_url(root, url)
 
     stack = [url]
 
@@ -42,7 +43,7 @@ def generate_sitemap(url):
 
         if response.status == 200:
             soup = BeautifulSoup(response, "html.parser")
-            extract_urls(soup, root)
+            await extract_urls(soup, root)
 
             for link in soup.find_all("a", href=True):
                 next_url = link["href"]
@@ -68,4 +69,4 @@ def generate_sitemap(url):
         print(" sitemap write..")
     print(" sitemap generated successfully..")
 
-generate_sitemap("http://localhost:8000/")
+asyncio.run(generate_sitemap("http://localhost:8000/"))

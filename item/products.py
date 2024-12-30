@@ -273,6 +273,6 @@ async def products_cts(request):
         print(" params..", params)
         print("..")
         return RedirectResponse(
-            f"/item/item/categories/{params}",
+            f"/item/products/cts/{params}",
             status_code=302,
         )

@@ -19,25 +19,26 @@ EMAIL_TOKEN_EXPIRY_MINUTES = settings.EMAIL_TOKEN_EXPIRY_MINUTES
 async def get_token_visited(request):
     if request.cookies.get("visited"):
         token = request.cookies.get("visited")
+        payload = None
+        email = None
+        off = None
         if token:
-            payload = jwt.decode(token, key, algorithm)
-            email = payload["email"]
-            print(" email..!", email)
-            return email
-
-
-async def get_visited(request, session):
-    email = await get_token_visited(request)
-    result = await left_right_first(session, User, User.email, email)
-    return result
-
+            try:
+                payload = jwt.decode(token, key, algorithm)
+            except jwt.exceptions.InvalidTokenError as err:
+                off = err
+            if payload is not None:
+                email = payload["email"]
+            return email, off
 
 async def get_visited_user(request, session):
     while True:
-        email = await get_visited(request, session)
-        if not email:
+        i = await get_token_visited(request)
+        if not i[0]:
             break
-        result = await left_right_first(session, User, User.email, email)
+        if i[1]:
+            break
+        result = await left_right_first(session, User, User.email, i[0])
         return result
 
 

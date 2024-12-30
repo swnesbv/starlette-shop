@@ -1,9 +1,5 @@
-import subprocess, math
-from starlette.templating import Jinja2Templates
+import subprocess
 from starlette.responses import RedirectResponse
-
-
-templates = Jinja2Templates(directory="templates")
 
 
 async def all_sitemap(request):

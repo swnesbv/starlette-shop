@@ -36,6 +36,7 @@ async def item_create(request):
     obj = await parent_create(request, Item, "item", im_item)
     return obj
 
+
 @privileged()
 # ...
 async def item_update(request):
@@ -47,6 +48,7 @@ async def item_update(request):
     form = await request.form()
     obj = await child_img_update(request, form, context, Item, id, "item", im_item, amount, price)
     return obj
+
 
 @privileged()
 # ...
